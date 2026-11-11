@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Explore model capabilities, provider pricing and source-backed information from the RoomKit model catalogue.">
+  <meta name="color-scheme" content="dark">
+  <title>RoomKit Models — Know your options</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+  <script type="module" src="app.js"></script>
+</head>
+<body>
+  <a class="skip" href="#catalogue">Skip to catalogue</a>
+  <header class="shell header">
+    <a class="brand" href="./" aria-label="RoomKit Models home"><img src="favicon.svg" width="30" height="30" alt="">roomkit<span>models</span></a>
+    <nav aria-label="Main navigation"><a href="https://roomkit.live">RoomKit ↗</a><a href="https://github.com/roomkit-live/roomkit-models">GitHub ↗</a></nav>
+  </header>
+  <main class="shell">
+    <section class="intro" aria-labelledby="title">
+      <div><p class="eyebrow"><span class="dot"></span> THE ROOMKIT MODEL CATALOGUE</p><h1 id="title">Know your options.</h1><p class="lead">Model capabilities, provider pricing and the sources behind them.<br>A shared reference for choosing what to run.</p></div>
+      <aside class="release" aria-label="Catalogue status"><span class="eyebrow">INDEPENDENT DATA RELEASES</span><strong id="model-count">—</strong><span id="catalogue-summary">Loading catalogue…</span><a href="v1/catalog.json" download>Download JSON <span aria-hidden="true">↓</span></a></aside>
+    </section>
+    <section id="catalogue" aria-labelledby="catalogue-title">
+      <div class="section-heading"><h2 id="catalogue-title">Explore models</h2><p id="updated">Versioned data · static API</p></div>
+      <form id="filters" role="search" class="filters">
+        <label class="search">Search models<input type="search" name="search" id="search" placeholder="Name, ID or description…" autocomplete="off"></label>
+        <label>Provider<select id="provider" name="provider"><option value="">All providers</option></select></label>
+        <label>Capability<select id="capability" name="capability"><option value="">All capabilities</option><option value="vision">Image input</option><option value="tools">Tool calling (upstream)</option><option value="reasoning">Reasoning (upstream)</option></select></label>
+        <label>Sort by<select id="sort" name="sort"><option value="name">Model name</option><option value="cost">Lowest input price</option><option value="context">Largest context</option></select></label>
+      </form>
+      <div class="results-bar"><p id="results" role="status" aria-live="polite">Loading…</p><label class="checkbox"><input type="checkbox" id="retired">Include deprecated models</label></div>
+      <p class="notice">Prices are provider list rates in USD per million tokens. Subscription costs and actual availability depend on your account.</p>
+      <div class="table-scroll"><table><thead><tr><th scope="col">Model</th><th scope="col">Provider</th><th scope="col">Context</th><th scope="col">Input / output</th><th scope="col">Image input</th><th scope="col"><span class="sr-only">Details</span></th></tr></thead><tbody id="rows"></tbody></table></div>
+      <div id="empty" class="empty" hidden><h3>No matching models</h3><p>Try a broader search or another provider.</p><button id="reset" type="button">Reset filters</button></div>
+      <p id="error" class="error" role="alert" hidden>Could not load the catalogue. Please reload, or download the data from GitHub.</p>
+      <noscript><p class="notice">Enable JavaScript to search the catalogue, or <a href="v1/catalog.json">download the complete JSON catalogue</a>.</p></noscript>
+    </section>
+    <section class="about" aria-labelledby="about-title">
+      <div><p class="eyebrow">A SHARED REFERENCE</p><h2 id="about-title">Facts with a source.<br>Room to learn more.</h2></div>
+      <div><p>Reference data starts with RoomKit's curated catalogues. Additional descriptions and capabilities come from models.dev. Each model shows its sources, dates and any conflicting values.</p><p>Coding recommendations will be added as we evaluate models. A listed capability is not a RoomKit compatibility test.</p><a href="https://github.com/roomkit-live/roomkit-models#updating-the-catalogue">How updates are reviewed ↗</a></div>
+    </section>
+  </main>
+  <footer class="shell footer"><span>RoomKit Models · An open catalogue</span><nav aria-label="Resources"><a href="v1/manifest.json">API manifest</a><a href="https://models.dev">models.dev ↗</a><a href="NOTICE.txt">Sources &amp; licenses</a></nav></footer>
+  <dialog id="details" aria-labelledby="detail-title"><div class="dialog-heading"><p class="eyebrow">MODEL DETAILS</p><button type="button" id="close" aria-label="Close model details">✕</button></div><div id="detail-content"></div></dialog>
+</body>
+</html>

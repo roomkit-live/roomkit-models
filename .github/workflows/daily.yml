@@ -1,0 +1,41 @@
+name: Daily upstream verification
+
+on:
+  schedule:
+    - cron: '17 7 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: daily-verification
+  cancel-in-progress: false
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.13'
+      - name: Check source and produce review report
+        run: python3 scripts/upstream.py --report reports/upstream.md
+      - name: Show report
+        if: always()
+        run: |
+          if test -f reports/upstream.md; then
+            cat reports/upstream.md >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo 'Verification failed. No successful source check is recorded; inspect the run logs.' >> "$GITHUB_STEP_SUMMARY"
+          fi
+      - name: Retain full report
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: upstream-verification
+          path: reports/
+          if-no-files-found: warn
+          retention-days: 30
